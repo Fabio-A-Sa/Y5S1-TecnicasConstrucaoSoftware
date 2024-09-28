@@ -65,3 +65,9 @@ Existem várias linguagens:
 - Domain Specific Modeling Language (`DSML`), a que vamos criar;
 - General Porpose Modeling Language (`GPL`), como UML;
 
+Os Modelos também podem ser `estáticos` (partes estáticas do sistema, como class diagrams) ou `dinâmicos` (como ações, algoritmos e colaboração entre componentes, diagramas de sequências).
+
+### MetaModel
+
+São definições de linguagens de modelação (por exemplo gramáticas para programming languages). Um modelo está conforme com o seu metamodel se todos os seus elementos podem ser expressados / são instâncias do metamodelo correspondente.
+
