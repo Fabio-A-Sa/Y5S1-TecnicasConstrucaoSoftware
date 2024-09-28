@@ -32,3 +32,24 @@ Um **Model** é a representação simplificada ou parcial da realidade. Implemen
 - `Semiformal`: usando UML para estruturação;
 - `Formal`: usando um software, como o Alloy;
 
+## Hierarquia
+
+- `MDA`: Model-Driven Architecture;
+- `MDD`: Model-Driven Development;
+- `MDE`: Model-Driven Engineering;
+- `MBE`: Model-Based Engineering;
+
+**MDSE** procura soluções com base em dois eixos: conceptualização e implementação:
+
+### Conceptualização
+
+- **Application level**, onde os modelos da aplicação são definidos, as transformações efetuadas e os componentes essenciais são gerados;
+- **Application domain level**, onde existe a definição de modeling language, transformações e plataformas de implementação;
+- **Meta level**, onde conceptualização de modelos e transformações são definidos;
+
+### Implementação
+
+- **Modeling level**, onde os modelos são definidos;
+- **Realization level**, onde as soluções são implementadas, por exemplo o próprio código;
+- **Automation level**, onde os mappings da etapa de modelação são colocados;
+
