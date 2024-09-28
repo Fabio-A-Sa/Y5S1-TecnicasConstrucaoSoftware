@@ -53,3 +53,15 @@ Um **Model** é a representação simplificada ou parcial da realidade. Implemen
 - **Realization level**, onde as soluções são implementadas, por exemplo o próprio código;
 - **Automation level**, onde os mappings da etapa de modelação são colocados;
 
+Existem vários espaços na modelação:
+
+- Problem space;
+- Solution space;
+- Technical space;
+
+Existem várias linguagens:
+
+- Domain Specific Languages (`DSL`), como HTML ou SQL;
+- Domain Specific Modeling Language (`DSML`), a que vamos criar;
+- General Porpose Modeling Language (`GPL`), como UML;
+
