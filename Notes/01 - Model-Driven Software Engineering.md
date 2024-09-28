@@ -11,4 +11,24 @@ Um **Model** é a representação simplificada ou parcial da realidade. Implemen
 - `Reduction`: o modelo reflete apenas uma relevante secção das propriedades originais, apenas para focar nas partes de interesse;
 - `Mapping`: o modelo é baseado num indivíduo original que teve as suas propriedades generalizadas;
 
-**MDSE** é a capacidade de modeling, que 
+**MDSE** é a capacidade de modeling que serve para melhoria da eficiência na criação de software.
+
+### Model Classification
+
+#### Type
+
+- `Sketches`: para motivos de comunicação, ou vistas parciais do sistema especificado;
+- `Blueprints`: proporciam uma forma completa e detalhada da especificação do sistema;
+- `Programs`: quando são usados para desenvolver o sistema em si;
+
+#### Representation
+
+- `Textual`: em plaintext;
+- `Visual`: usando diagramas para representar relações;
+
+#### Formality
+
+- `Informal`: desenhos/esquemas;
+- `Semiformal`: usando UML para estruturação;
+- `Formal`: usando um software, como o Alloy;
+
