@@ -4,7 +4,7 @@
 
 - `Atlas Transformation Language` (ATL) é usada para designar as regras de transformação entre modelos e para executar essas regras. 
 
-- `Object Constraint Language` (OCL) é uma linguagem declarativa que é usada para pesquisa nos modelos com transformações em ATL;
+- `Object Constraint Language` (OCL) é uma linguagem declarativa que é usada para pesquisa nos modelos com transformações em ATL. Usada quando as restrições dos modelos não são suficientes para digerir a complexidade da transformação;
 
 - `EMF core metamodel` (Ecore) é a linguagem para definir os modelos source and target metamodels in transformations;  
 
