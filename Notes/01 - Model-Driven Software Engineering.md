@@ -71,3 +71,9 @@ Os Modelos também podem ser `estáticos` (partes estáticas do sistema, como cl
 
 São definições de linguagens de modelação (por exemplo gramáticas para programming languages). Um modelo está conforme com o seu metamodel se todos os seus elementos podem ser expressados / são instâncias do metamodelo correspondente.
 
+No fundo, podemos organizar os modelos em:
+
+- M0: os objectos em si;
+- M1: como UML models;
+- M2: UML metamodel;
+- M3: MOF;
