@@ -16,12 +16,25 @@ Um model ATL define um conjunto de regras para transformar modelos noutros model
 
 - O `header` define o nome do módulo, os inputs e os outputs;
 - O `import`, que é opcional, permite exportar bibliotecas ATL;
-- Existem `helpers` que são métodos auxiliares, manipulam atributos e operações entre estes;
-- Existem `rules` que definem como gerar os modelos a partir dos existentes;
+- Podem existir `helpers`;
+- Existem `rules`;
 
 ### Helpers
 
-
+São query operations, possivelmente parametrizadas, no contexto de uma classe. Manipulam atributos derivados dessa classe e o corpo é na linguagem OCL;
 
 ### Rules
 
+Definem as regras para a transformação de modelos noutros modelos. Podem ser de três tipos:
+
+#### 1. Matched Rules
+
+TODO
+
+#### 2. Lazy Rules
+
+TODO
+
+#### 3. Called Rules
+
+TODO
