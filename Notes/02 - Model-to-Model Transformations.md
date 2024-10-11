@@ -29,12 +29,38 @@ Definem as regras para a transformação de modelos noutros modelos. Podem ser d
 
 #### 1. Matched Rules
 
+Permitem identificar regras usadas para gerar os target models. Suporta blocos imperativos (começados por `do`).
+
+```ocl
+rule rule_name {
+    from
+    in_var : in_type [(condition )]?
+    [using {
+    var1 : var_type1 = init_exp1;
+    ...
+    }]?
+    to
+    out_var1 : out_type1 (
+    feature1 <- exp1,
+    ...
+    ),
+    out_var2 : distinct out_type2 foreach(e in collection)(
+    feature2 <- exp2,
+    ...
+    ),
+    ...
+    [do {
+    statements
+    }]?
+}
+```
+
 TODO
 
 #### 2. Lazy Rules
 
-TODO
+Semelhantes às matched rules, mas têm de ser explicitamente chamadas por outras regras. São, no fundo, métodos auxiliares. `Unique lazy rules` sempre retornam um mesmo target element de outro source element.
 
 #### 3. Called Rules
 
-TODO
+Precisam também de ser chamadas por outras regras, a menos que sejam declaradas como *entrypoint* or *endpoint*. Não possuem source patterns, apenas parâmetros.
