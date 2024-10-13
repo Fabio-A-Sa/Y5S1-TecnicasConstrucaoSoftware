@@ -109,3 +109,38 @@ context r : Booking inv:
 context Booking inv NonZeroNumGuests:
     numberOfGuests > 0
 ```
+
+Example of uniqueness constraints:
+
+```ocl
+context Booking inv: 
+    Booking.allInstances->isUnique(number)
+
+context Booking inv: 
+    Booking.allInstances->forAll(b1, b2 |
+        b1 <> b2 implies b1.number <> b2.number)
+```
+
+Example of business contraints:
+
+```ocl
+context Booking inv:
+    numberOfGuests <= room.capacity
+
+context Room inv:
+    bookings->select(active)->size() <= 1
+
+context Room inv:
+    bookings->select(b | b.active)->size() <= 1
+```
+
+Example of loops constraints:
+
+```ocl
+// Uma pessoa não pode ser o seu próprio pai / mãe
+context Person inv: 
+    self.mother <> self
+
+context: Person inv:
+    self.father <> self
+```
