@@ -34,28 +34,44 @@ Permitem identificar regras usadas para gerar os target models. Suporta blocos i
 ```ocl
 rule rule_name {
     from
-    in_var : in_type [(condition )]?
-    [using {
-    var1 : var_type1 = init_exp1;
-    ...
-    }]?
+        in_var : in_type [(condition )]?
+    [
+        using {
+            var1 : var_type1 = init_exp1;
+            ...
+        }
+    ]?
     to
-    out_var1 : out_type1 (
-    feature1 <- exp1,
-    ...
-    ),
+        out_var1 : out_type1 (
+            feature1 <- exp1,
+            ...
+        ),
     out_var2 : distinct out_type2 foreach(e in collection)(
     feature2 <- exp2,
     ...
     ),
     ...
-    [do {
-    statements
-    }]?
+    [
+        do {
+            statements
+        }
+    ]?
 }
 ```
 
-TODO
+A execução acontece em 3 fases:
+
+- Module intialization: inicialização dos helpers attributes e execução da regra de entrypoint, se existir;
+- Matching: alocar ao target model as matched rules, correspondendo ao source model os elementos que satisfazem as regras de matching;
+- Target model initialization: inicialização dos elementos do target model previamente alocados, executando o código de *bindings*. Execução do código imperativo *do* das matched rules, possivelmente triggering a execução das lazy rules e das called rules. Esta fase permite a execução do seguinte código, para retirar o target element que corresponde a um source element:
+
+```ocl
+thisModule.resolvTem(source_element, target_pattern_variable);
+```
+
+Exemplo:
+
+![Matched Rule Example](../Images/matched_rules.png)
 
 #### 2. Lazy Rules
 
