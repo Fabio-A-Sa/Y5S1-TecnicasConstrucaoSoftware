@@ -77,6 +77,9 @@ Exemplo:
 
 Semelhantes às matched rules, mas têm de ser explicitamente chamadas por outras regras. São, no fundo, métodos auxiliares. `Unique lazy rules` sempre retornam um mesmo target element de outro source element.
 
+![Lazy Rules 1](../Images/lazy_rules_1.png)
+![Lazy Rules 2](../Images/lazy_rules_2.png)
+
 #### 3. Called Rules
 
 Precisam também de ser chamadas por outras regras, a menos que sejam declaradas como *entrypoint* or *endpoint*. Não possuem source patterns, apenas parâmetros.
