@@ -83,3 +83,29 @@ Semelhantes às matched rules, mas têm de ser explicitamente chamadas por outra
 #### 3. Called Rules
 
 Precisam também de ser chamadas por outras regras, a menos que sejam declaradas como *entrypoint* or *endpoint*. Não possuem source patterns, apenas parâmetros.
+
+## Constraints in OCL
+
+- Domain constraints (possible values);
+- Unique constraints;
+- Related to loops in associations;
+- Time constraints;
+- Constraints that define derived elements;
+- Existence rules;
+- Generic busines constraints;
+
+Example of equivalent domain constraits:
+
+```ocl
+context Booking inv:
+    numberOfGuests > 0
+
+context Booking inv:
+    self.numberOfGuests > 0
+
+context r : Booking inv:
+    r.numberOfGuests > 0
+
+context Booking inv NonZeroNumGuests:
+    numberOfGuests > 0
+```
