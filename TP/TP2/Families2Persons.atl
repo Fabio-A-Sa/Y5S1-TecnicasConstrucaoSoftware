@@ -1,0 +1,77 @@
+-- @path Families=/Families2Persons/Families.ecore
+-- @path Persons=/Families2Persons/Persons.ecore
+module Families2Persons;
+
+create OUT: Persons from IN: Families;
+
+helper context Families!Member def: isFemale(): Boolean =
+    if not self.familyMother.oclIsUndefined() or not self.familyDaughter.oclIsUndefined() then
+        true
+    else
+        false
+    endif;
+
+helper context Families!Member def: isMother(): Boolean = 
+    if self.isFemale() and (not self.familySon.oclIsUndefined() or not self.familyDaughter.oclIsUndefined()) then
+        true
+    else
+        false
+    endif;
+
+helper context Families!Member def: isFather(): Boolean = 
+    if not self.isFemale() and (not self.familySon.oclIsUndefined() or not self.familyDaughter.oclIsUndefined()) then
+        true
+    else
+        false
+    endif;
+
+helper context Families!Member def: familyName: String =
+    if not self.familyFather.oclIsUndefined() then
+        self.familyFather.lastName
+    else
+        if not self.familyMother.oclIsUndefined() then
+            self.familyMother.lastName
+        else
+            if not self.familySon.oclIsUndefined() then
+                self.familySon.lastName
+            else
+                self.familyDaughter.lastName
+            endif
+        endif
+    endif;
+
+rule Member2Mother {
+    from
+        s: Families!Member (s.isMother())
+    to
+        t: Persons!Mother (
+            fullName <- s.firstName + ' ' + s.familyName
+        )
+}
+
+rule Member2Father {
+    from
+        s: Families!Member (s.isFather())
+    to
+        t: Persons!Father (
+            fullName <- s.firstName + ' ' + s.familyName
+        )
+}
+
+rule Member2Female {
+    from
+        s: Families!Member (s.isFemale() and not s.isMother())
+    to
+        t: Persons!Female (
+            fullName <- s.firstName + ' ' + s.familyName
+        )
+}
+
+rule Member2Male {
+    from
+        s: Families!Member (not s.isFemale() and not s.isFather())
+    to
+        t: Persons!Male (
+            fullName <- s.firstName + ' ' + s.familyName
+        )
+}
