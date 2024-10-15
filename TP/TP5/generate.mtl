@@ -1,0 +1,32 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.example.org/familiestest')]
+
+[template public generateRole(lastname: String,role: String, aMembers: Set(Member))]
+[for ( member: Member | aMembers)]
+	[role/]: [member.firstName/] [lastname/]
+[/for]
+[/template]
+
+[template public generateElement(aFamily : Family)]
+[comment @main /]
+[file (aFamily.lastName + '.txt',false,'UTF-8')]
+Members of family [aFamily.lastName/]:
+
+[if (not aFamily.father.oclIsUndefined())]
+Father: [aFamily.father.firstName/] [aFamily.lastName/]
+[/if]
+
+[if (not aFamily.mother.oclIsUndefined())]
+Mother: [aFamily.mother.firstName/] [aFamily.lastName/]
+[/if]
+
+[if (not aFamily.sons -> isEmpty())]
+[generateRole(aFamily.lastName, 'Son', aFamily.sons)/]
+[/if]
+
+[if (not aFamily.daughters -> isEmpty())]
+[generateRole(aFamily.lastName, 'Daughter', aFamily.daughters)/]
+[/if]
+
+[/file]
+[/template]
