@@ -89,6 +89,74 @@ for (Annotation annotation : annotations) {
 }
 ```
 
+## Aspect-Oriented Programming (AOP)
 
+Paradigma de programação que separa preocupações transversais do código principal, como logging, segurança, ou transações. Permite aplicar funcionalidades transversais a diferentes partes do código sem duplicação. Conceitos principais:
 
-## 
+- `Aspect`: Unidade de modularidade que encapsula preocupações transversais;
+- `Join Point`: Ponto específico no fluxo de execução do programa (e.g., chamadas de método, inicializações);
+- `Pointcut`: Expressão que captura múltiplos join points;
+- `Advice`: Código executado em torno de um join point (antes, depois, ou em vez);
+- `Weaving`: Processo de integração dos aspectos no programa (em tempo de compilação ou runtime);
+
+### Tipos de Advice
+
+- `Before`: executa antes do join point:
+
+```java
+before(): publicCall() {
+    System.out.println("Executando antes do método.");
+}
+```
+
+- `After`: executa depois do join point:
+
+```java
+after(): publicCall() {
+    System.out.println("Executando após o método.");
+}
+```
+
+- `Around`: substitui o join point, podendo invocá-lo condicionalmente:
+
+```java
+int around(): publicCall() {
+    if (condition) return proceed();
+    return 0;
+}
+```
+
+### Modelo de Join Points
+
+```java
+// Chamadas e execuções de métodos e construtores
+call(public void SomeClass.someMethod());
+execution(public void SomeClass.someMethod());
+
+// Acessos a campos
+get(public int SomeClass.someField);
+set(public int SomeClass.someField);
+
+// Fluxos de execução
+cflow(call(* OtherClass.otherMethod(..)));
+
+// Exemplo mais complexo: logging de mudanças em formas geométricas
+aspect LoggingAspect {
+    pointcut shapeChange(): call(public void Shape.set*(..));
+
+    after(): shapeChange() {
+        System.out.println("Forma alterada.");
+    }
+}
+```
+
+#### Vantagens
+
+- Melhora a modularidade, separando preocupações transversais;
+- Facilita a manutenção e escalabilidade;
+
+#### Desvantagens
+
+- Pode introduzir complexidade adicional;
+- Algumas implementações possuem impacto em desempenho;
+
