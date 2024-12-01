@@ -160,3 +160,50 @@ aspect LoggingAspect {
 - Pode introduzir complexidade adicional;
 - Algumas implementações possuem impacto em desempenho;
 
+## AspectJ
+
+É possível combinar diferentes pointcuts usando operadores booleanos:
+
+- AND (&&): Combina dois pointcuts;
+- OR (||): Escolhe qualquer um dos dois pointcuts;
+- NOT (!): Exclui um pointcut;
+
+```java
+call(public int SomeClass.get*()) || call(public void SomeClass.set*(int))
+```
+
+Os pointcuts podem expor partes do contexto de execução, como:
+
+- `this()`: Objeto que executa o código;
+- `target()`: Objeto alvo do join point;
+- `args()`: Argumentos passados ao método;
+
+```java
+pointcut somePointcut(SomeClass obj, int x): 
+    call(public SomeClass+.set*(int)) && args(x) && target(obj);
+```
+
+- `within()`: Captura join points definidos em classes específicas;
+- `withincode()`: Captura código dentro de métodos ou construtores;
+
+```java
+call(* void SomeClass.someMethod(..)) && !within(SomeClass)
+withincode(public * *.get*(..));
+```
+
+- `cflow()`: Captura todos os join points dentro de um fluxo específico;
+- `cflowbelow()`: Similar a cflow(), mas não inclui o join point inicial;
+
+```java
+call(* SomeClass.someMethod(..)) && cflow(call(* OtherClass.otherMethod(..)))
+```
+
+#### Vantagens
+
+- Encapsula preocupações transversais de forma modular;
+- Melhora a modularidade e organização do código;
+
+#### Desvantagens
+
+- Aumento na complexidade do design;
+- Impactos no desempenho em algumas situações;
