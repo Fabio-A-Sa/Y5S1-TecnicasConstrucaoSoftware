@@ -22,10 +22,11 @@ fn main() {
 
     let day = "Tuesday";
 
-    switch!(day, {
+    // Use an explicit match block for the | pattern
+    match day {
         "Monday" => println!("Start of the week"),
         "Friday" => println!("Almost weekend"),
         "Saturday" | "Sunday" => println!("Weekend!"),
         _ => println!("Another workday"),
-    });
+    }
 }
