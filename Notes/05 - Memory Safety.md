@@ -107,3 +107,39 @@ fn main() {
 
 ## Macros
 
+Utilização de metaprogramming com macros em Rust. Exemplo para criar funções:
+
+```rust
+macro_rules! generate_function {
+    ($fn_name:ident, $message:expr) => {
+        fn $fn_name() {
+            println!("{}", $message);
+        }
+    }
+}
+
+macro_rules! unless {
+    ($condition:expr, $block:block) => {
+        if !$condition {
+            $block
+        }
+    };
+}
+
+generate_function!(hello_world, "Hello World!");
+generate_function!(goodbye, "Goodbye!");
+
+fn main() {
+    hello_world();
+    goodbye();
+
+    let x = 10;
+    unless!(x > 20, {
+        println!("x is not greater than 20");
+    });
+    unless!(x < 5, {
+        println!("x is not less than 5");
+    });
+}
+```
+
