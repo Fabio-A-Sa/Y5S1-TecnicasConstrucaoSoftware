@@ -4,7 +4,7 @@ Rust é uma linguagem de programação que utiliza memory safety para eliminar v
 
 É uma linguagem compilada, criada pela Mozilla em 2015. Safe concurrency em runtime. Some examples:
 
-### Ownership
+## Ownership
 
 Um objecto só tem uma variável por vez. Em C uma variável é um pointer para um Objecto, em Rust só é possível ter uma variável/pointer para o mesmo Objecto.
 
@@ -17,7 +17,7 @@ fn main() {
 }
 ```
 
-### References and Borrowing
+## References and Borrowing
 
 Neste caso s1, depois de ser chamado pela anterior função, deixa de ser o owner do valor. Logo o print gerará um erro de compilação:
 
@@ -73,4 +73,37 @@ fn dangle() -> &String {
 ```
 
 ## Generics
+
+```rust
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {result}");
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+    let result = largest(&char_list);
+    println!("The largest char is {result}");
+
+    let point_list = vec![
+        Point { x: 0.0, y: 0.0 },
+        Point { x: 2.0, y: 5.0 },
+        Point { x: 2.0, y: 2.0 },
+    ];
+
+    let result = largest(&point_list);
+    println!("The largest point is ({}, {})", result.x, result.y);
+}
+```
+
+## Macros
 
