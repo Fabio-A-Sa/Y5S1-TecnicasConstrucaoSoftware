@@ -26,15 +26,22 @@ We will present you with a simple, practical case, and we will ask some question
 
 ## Notes
 
--
--
--
--
--
--
--
--
--
--
--
--
+- Um modelo pode implementar uma redução (parte principal das propriedades) ou um mapping (focado num indivíduo original que teve as suas propriedades generalizadas);
+- Models podem ser sketches, blueprints and programs;
+- Models podem ser caracterizados por representação (textual, visual) ou por formalidade (UML é semiformal);
+- MDA < MDD < MDE < MBE (architecture, development, driven-eng, base-eng);
+- Conceptualização: MAR (modeling, automação, realização);
+- Models podem ser estáticos (arquitetura) ou dinâmicos (comportamento);
+- M0 to M3 (object, model, metamodel, meta-metamodel);
+- OCL para constraints impossíveis de colocar em UML (invariantes), ATL para M2M;
+- Rules chamam lazy/called rules;
+- Class invariants: domain, unique, associations, time, derived, busine
+- Matched rules não precisam de uma call explícita;
+- Matched rules só podem ter 1 source element;
+- Acceleo para M2T transformations;
+- 
+- 
+- 
+- 
+- 
+- 
