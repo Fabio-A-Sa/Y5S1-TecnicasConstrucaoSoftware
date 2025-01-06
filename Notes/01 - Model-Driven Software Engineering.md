@@ -4,7 +4,7 @@ A **Abstração** é a capacidade de encontrar situações comuns em diferentes 
 
 - Generalização;
 - Classificação;
-- Aggregação;
+- Agregação;
 
 Um **Model** é a representação simplificada ou parcial da realidade. Implementam dois tipos de funções quando aplicam a abstração:
 

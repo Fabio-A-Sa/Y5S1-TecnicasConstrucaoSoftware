@@ -23,3 +23,18 @@ We will present you with a simple, practical case, and we will ask some question
 - Low-code development and the Outsystems platform (2.5 points);
 
 - GenerativeAI (2.5 points).
+
+## Notes
+
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
