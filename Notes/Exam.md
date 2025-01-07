@@ -50,4 +50,8 @@ We will present you with a simple, practical case, and we will ask some question
 - Em rust, uma variável é o owner por vez, quando vamos usar deixa de o ser, e depois de colocar parâmetros deixamos de poder usar a variável;
 - A menos que usemos borrowing, não se pode usar borrowing mais que uma vez e não se pode retornar referências (porque o owner desaparece);
 - Codex, para Python, e HumanEval, para avaliar o comportamento dos LLMs;
+- AutoUAT permite transformar user stories em Acceptance tests (Gherkin);
+- Outsystems permite importar APIs, conectores, e custom code em C#/Java. Cria Web apps reativas;
+- Tem os componentes: lifetime (pipelines, performance, control user permissions), service center (logs, issues), forge (marketplace), cloud (hosting);
+- Outsystems tem 3 camadas: end-user modules (UI and process), core modules (business services), foundation modules ( Non-functional requirements);
 - 
