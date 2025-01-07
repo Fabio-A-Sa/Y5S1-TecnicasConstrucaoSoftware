@@ -47,4 +47,7 @@ We will present you with a simple, practical case, and we will ask some question
 - Aspect Oriented Programming AOP, facilita manutenção/escalabilidade/modularidade/separa preocupações, mas introduz complexidade e falta de desempenho;
 - call tem this/target, enquanto que execution apenas tem this;
 - join point é onde um aspecto pode ser chamado, como antes/depois de um método ser chamado ou no lançamento de uma excepção;
+- Em rust, uma variável é o owner por vez, quando vamos usar deixa de o ser, e depois de colocar parâmetros deixamos de poder usar a variável;
+- A menos que usemos borrowing, não se pode usar borrowing mais que uma vez e não se pode retornar referências (porque o owner desaparece);
+- Codex, para Python, e HumanEval, para avaliar o comportamento dos LLMs;
 - 
