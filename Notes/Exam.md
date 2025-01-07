@@ -54,4 +54,5 @@ We will present you with a simple, practical case, and we will ask some question
 - Outsystems permite importar APIs, conectores, e custom code em C#/Java. Cria Web apps reativas;
 - Tem os componentes: lifetime (pipelines, performance, control user permissions), service center (logs, issues), forge (marketplace), cloud (hosting);
 - Outsystems tem 3 camadas: end-user modules (UI and process), core modules (business services), foundation modules ( Non-functional requirements);
-- 
+- LLMs podem ser usadas para detectar architectural patterns (mais abstractos que design patterns, porque podem ser implementados em formas distintas, sem depender de classes, e mais complexas de identificar);
+- Detectam também microservices patterns, usando IaC (infraestructure as code) + LLMs, com mais impacto, mais preciso e potencialmente muito mais barato;
