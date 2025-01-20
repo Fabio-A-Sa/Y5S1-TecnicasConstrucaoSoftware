@@ -35,7 +35,7 @@ We will present you with a simple, practical case, and we will ask some question
 - M0 to M3 (object, model, metamodel, meta-metamodel);
 - OCL para constraints impossíveis de colocar em UML (invariantes), ATL para M2M;
 - Rules chamam lazy/called rules;
-- Class invariants: domain, unique, associations, time, derived, busine
+- Class invariants: domain, unique, associations, time, derived, business;
 - Matched rules não precisam de uma call explícita;
 - Matched rules só podem ter 1 source element;
 - Acceleo para M2T transformations, usando template-approach, OMG standard (Object Management Group) e tendo extensão .mlt (model to text language);
