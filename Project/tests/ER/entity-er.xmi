@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<er:Model xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:er="http://www.example.org/er"
+    name="Model">
+  <entity ename="Gyms">
+    <attribute
+        aname="id"
+        type="Int"
+        isUnique="true"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="Varchar"
+        isUnique="true"/>
+    <attribute
+        aname="address"
+        type="Varchar"
+        isNullable="true"/>
+    <attribute
+        aname="tax_id"
+        type="Int"/>
+    <attribute
+        aname="isOpen"
+        type="TinyInt"/>
+  </entity>
+</er:Model>

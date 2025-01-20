@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" 
+    xmlns:xmi="http://www.omg.org/XMI" 
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="relational" 
+    nsURI="http://www.example.org/relational" 
+    nsPrefix="relational">
+<eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Schema">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="SchemaNameNotEmpty UniqueTableNames NameNotSQLReservedWord"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="SchemaNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The schema name must not be empty',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;not self.name.oclIsUndefined() and self.name.size() > 0&#xA;}.status"/>
+      <details key="UniqueTableNames" value="Tuple {&#xA;&#x9;message : String = 'The names of all tables within a schema must be unique',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;self.table->forAll(c1, c2 | c1 &lt;> c2 implies c1.name &lt;> c2.name)&#xA;}.status"/>
+      <details key="NameNotSQLReservedWord" value="Tuple {&#xA;&#x9;message : String = 'The schema name must not be an SQL reserved word',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;let reservedWords : Set(String) = Set {&#xA;&#x9;&#x9;&#x9;&#x9;'SELECT', 'FROM', 'WHERE', 'JOIN', 'INSERT', 'UPDATE', 'DELETE', &#xA;&#x9;&#x9;&#x9;&#x9;'DROP', 'CREATE', 'ALTER', 'TABLE', 'INDEX', 'VIEW', 'PRIMARY', &#xA;&#x9;&#x9;&#x9;&#x9;'KEY', 'FOREIGN', 'CONSTRAINT', 'UNION', 'GROUP', 'ORDER', 'HAVING'&#xA;&#x9;&#x9;&#x9;} in&#xA;&#x9;&#x9;&#x9;not reservedWords->includes(self.name.toUpper())&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" ordered="false"
+        upperBound="-1" eType="#//Table" containment="true" eOpposite="#//Table/schema"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Table">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueAttributeNames TableNameNotEmpty NameNotSQLReservedWord HasPrimaryKey"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="UniqueAttributeNames" value="Tuple {&#xA;&#x9;message : String = 'The names of all columns within a table must be unique',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;self.column->forAll(c1, c2 | c1 &lt;> c2 implies c1.name &lt;> c2.name)&#xA;}.status"/>
+      <details key="TableNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The table name must not be empty',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;not self.name.oclIsUndefined() and self.name.size() > 0&#xA;}.status"/>
+      <details key="NameNotSQLReservedWord" value="Tuple {&#xA;&#x9;message : String = 'The table name must not be an SQL reserved word',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;let reservedWords : Set(String) = Set {&#xA;&#x9;&#x9;&#x9;&#x9;'SELECT', 'FROM', 'WHERE', 'JOIN', 'INSERT', 'UPDATE', 'DELETE', &#xA;&#x9;&#x9;&#x9;&#x9;'DROP', 'CREATE', 'ALTER', 'TABLE', 'INDEX', 'VIEW', 'PRIMARY', &#xA;&#x9;&#x9;&#x9;&#x9;'KEY', 'FOREIGN', 'CONSTRAINT', 'UNION', 'GROUP', 'ORDER', 'HAVING'&#xA;&#x9;&#x9;&#x9;} in&#xA;&#x9;&#x9;&#x9;not reservedWords->includes(self.name.toUpper())&#xA;}.status"/>
+      <details key="HasPrimaryKey" value="Tuple {&#xA;&#x9;message : String = 'Each table must have at least one primary key column',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;self.column->select(c | c.oclIsTypeOf(PrimaryKey))->size() > 0&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="column" upperBound="-1"
+        eType="#//Column" containment="true" eOpposite="#//Column/table"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schema" lowerBound="1"
+        eType="#//Schema" eOpposite="#//Schema/table"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Column">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ColumnNameNotEmpty NameNotSQLReservedWord ValidColumnType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ColumnNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The column name must not be empty',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;not self.name.oclIsUndefined() and self.name.size() > 0&#xA;}.status"/>
+      <details key="NameNotSQLReservedWord" value="Tuple {&#xA;&#x9;message : String = 'The column name must not be an SQL reserved word',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;let reservedWords : Set(String) = Set {&#xA;&#x9;&#x9;&#x9;&#x9;'SELECT', 'FROM', 'WHERE', 'JOIN', 'INSERT', 'UPDATE', 'DELETE', &#xA;&#x9;&#x9;&#x9;&#x9;'DROP', 'CREATE', 'ALTER', 'TABLE', 'INDEX', 'VIEW', 'PRIMARY', &#xA;&#x9;&#x9;&#x9;&#x9;'KEY', 'FOREIGN', 'CONSTRAINT', 'UNION', 'GROUP', 'ORDER', 'HAVING'&#xA;&#x9;&#x9;&#x9;} in&#xA;&#x9;&#x9;&#x9;not reservedWords->includes(self.name.toUpper())&#xA;}.status"/>
+      <details key="ValidColumnType" value="Tuple {&#xA;&#x9;message : String = 'The column type must be a valid MySQL data type',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;let validTypes : Set(String) = Set {&#xA;&#x9;&#x9;&#x9;&#x9;'TINYINT', 'SMALLINT', 'MEDIUMINT', 'INT', 'INTEGER', 'BIGINT', 'DECIMAL',&#xA;&#x9;&#x9;&#x9;&#x9;'NUMERIC', 'FLOAT', 'DOUBLE', 'BIT', 'DATE', 'DATETIME', 'TIMESTAMP', 'TIME',&#xA;&#x9;&#x9;&#x9;&#x9;'YEAR', 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB',&#xA;&#x9;&#x9;&#x9;&#x9;'LONGBLOB', 'TINYTEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'ENUM', 'SET', 'JSON',&#xA;&#x9;&#x9;&#x9;&#x9;'GEOMETRY', 'POINT', 'LINESTRING', 'POLYGON', 'MULTIPOINT', 'MULTILINESTRING',&#xA;&#x9;&#x9;&#x9;&#x9;'MULTIPOLYGON', 'GEOMETRYCOLLECTION'&#xA;&#x9;&#x9;&#x9;} in&#xA;&#x9;&#x9;&#x9;validTypes->includes(self.type.toUpper())&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="#//Table"
+        eOpposite="#//Table/column"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isNullable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUnique" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimaryKey" eSuperTypes="#//Column">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="PrimaryKeyIsUnique PrimaryKeyIsNotNullable"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="PrimaryKeyIsUnique" value="Tuple {&#xA;&#x9;message : String = 'Ensures a primary key column is unique',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;self.isUnique&#xA;}.status"/>
+      <details key="PrimaryKeyIsNotNullable" value="Tuple {&#xA;&#x9;message : String = 'Ensures a primary key column is not nullable',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;not self.isNullable&#xA;}.status"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForeignKey" eSuperTypes="#//Column">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NoSelfReferencingForeignKey ReferencedColumnIsUnique ReferencedColumnBelongsToReferencedTable ReferencedColumnIsOfSameType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="NoSelfReferencingForeignKey" value="Tuple {&#xA;&#x9;message : String = 'A foreign key cannot reference the table it is defined in',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#x9;self.refersToTable &lt;> self.table&#xA;}.status"/>
+      <details key="ReferencedColumnIsUnique" value="Tuple {&#xA;&#x9;message : String = 'The foreign key must reference a unique column',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;    if self.refersToColumn.oclIsUndefined() or self.refersToColumn.size() = 0 then &#xA;&#x9;&#x9;        true -- references primary key, which is unique&#xA;&#x9;&#x9;    else&#xA;&#x9;&#x9;        let referencedColumns : OrderedSet(Column) = self.refersToTable.column->select(c | c.name = self.refersToColumn) in&#xA;&#x9;&#x9;        not referencedColumns->isEmpty() and referencedColumns->first().isUnique&#xA;&#x9;&#x9;    endif&#xA;}.status"/>
+      <details key="ReferencedColumnBelongsToReferencedTable" value="Tuple {&#xA;&#x9;message : String = 'The referenced column must belong to the referenced table',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;    if self.refersToColumn.oclIsUndefined() or self.refersToColumn.size() = 0 then &#xA;&#x9;&#x9;        true -- references primary key&#xA;&#x9;&#x9;    else&#xA;&#x9;&#x9;        let referencedColumns : OrderedSet(Column) = self.refersToTable.column->select(c | c.name = self.refersToColumn) in&#xA;&#x9;&#x9;        not referencedColumns->isEmpty() and referencedColumns->first().table = self.refersToTable&#xA;&#x9;&#x9;    endif&#xA;}.status"/>
+      <details key="ReferencedColumnIsOfSameType" value="Tuple {&#xA;&#x9;message : String = 'The foreign key column type must match the referenced column type',&#xA;&#x9;status : Boolean = &#xA;&#x9;&#x9;&#xA;&#x9;    let referencedColumn : Column = &#xA;&#x9;        if self.refersToColumn.oclIsUndefined() or self.refersToColumn.size() = 0 then &#xA;&#x9;            self.refersToTable.column->select(c | c.oclIsTypeOf(PrimaryKey))->first() &#xA;&#x9;        else &#xA;&#x9;            self.refersToTable.column->select(c | c.name = self.refersToColumn)->first() &#xA;&#x9;        endif&#xA;&#x9;    in&#xA;&#x9;    self.type = referencedColumn.type&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refersToTable" lowerBound="1"
+        eType="#//Table"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refersToColumn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

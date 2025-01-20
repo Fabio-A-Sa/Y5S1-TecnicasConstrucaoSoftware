@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relational:Schema xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:relational="http://www.example.org/relational" xsi:schemaLocation="http://www.example.org/relational relational.ecore" name="MySchema">
+  <table name="Gym">
+    <column
+        xsi:type="relational:PrimaryKey"
+        name="id"
+        type="INT"
+        isNullable="false"
+        isUnique="true"/>
+    <column
+        name="name"
+        type="VARCHAR"
+        isNullable="false"/>
+    <column
+        name="address"
+        type="VARCHAR"
+        isNullable="false"/>
+    <column
+        name="tax_id"
+        type="INT"
+        isNullable="false"
+        isUnique="true"/>
+  </table>
+  <table name="Equipment">
+    <column
+        xsi:type="relational:PrimaryKey"
+        name="id"
+        type="INT"
+        isNullable="false"
+        isUnique="true"/>
+    <column
+        name="name"
+        type="VARCHAR"/>
+    <column
+        name="min_weight"
+        type="FLOAT"/>
+    <column
+        name="max_weight"
+        type="FLOAT"/>
+    <column
+        xsi:type="relational:ForeignKey"
+        name="gym_name"
+        type="VARCHAR"
+        isNullable="false"
+        isUnique="true"
+        refersToTable="//@table.0"
+        refersToColumn="name"/>
+  </table>
+</relational:Schema>

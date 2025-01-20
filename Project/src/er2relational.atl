@@ -1,0 +1,167 @@
+-- @path ER=/er/model/er.ecore
+-- @path Relational=/relational/model/relational.ecore
+
+module er2relationalbackup;
+create OUT : Relational from IN : ER;
+
+helper context ER!Relationship def: isOneToOne(): Boolean = self.lowerBoundA.equals(1) and self.upperBoundA.equals(1) and self.lowerBoundB.equals(1) and self.upperBoundB.equals(1);
+
+helper context ER!Relationship def: isOneToMany(): Boolean = self.lowerBoundA.equals(1) and self.upperBoundA.equals(1) and self.upperBoundB.equals(-1);
+
+helper context ER!Relationship def: isManyToOne(): Boolean = self.upperBoundA.equals(-1) and self.lowerBoundB.equals(1) and self.upperBoundB.equals(1);
+
+helper context ER!Relationship def: isManyToMany(): Boolean = self.upperBoundA.equals(-1) and self.upperBoundB.equals(-1);
+
+rule Model2Schema {
+    from
+        model : ER!Model
+    to
+        schema : Relational!Schema (
+            name <- model.name
+        )
+}
+
+rule Entity2Table {
+	from
+		entity: ER!Entity
+	to
+		table : Relational!Table (
+			name <- entity.ename,
+			schema <- entity.model
+		)
+}
+
+rule Attribute2PrimaryKey {
+	from
+		attribute : ER!Attribute (
+			attribute.isIdentifier = true
+		)
+	to
+		pk : Relational!PrimaryKey (
+			table <- attribute.entity,
+			name <- attribute.aname,
+			type <- attribute.type,
+			isNullable <- attribute.isNullable,
+			isUnique <- attribute.isUnique
+		)
+}
+
+rule Attribute2Column {
+	from
+		attribute : ER!Attribute (
+			attribute.isIdentifier = false
+		)
+	to
+		column : Relational!Column (
+			table <- attribute.entity,
+			name <- attribute.aname,
+			type <- attribute.type,
+			isNullable <- attribute.isNullable,
+			isUnique <- attribute.isUnique
+		)
+}
+
+rule O2MRelationship2ForeignKey {
+	from
+		relationship : ER!Relationship (
+			relationship.isOneToMany()
+		)
+	using {
+		entityFrom : ER!Entity = relationship.entity->first();
+        entityTo : ER!Entity = relationship.entity->last();
+	}
+	to
+		fk : Relational!ForeignKey (
+			table <- entityTo,
+            refersToTable <- entityFrom,
+		    refersToColumn <- entityFrom.attribute->select(a | a.isIdentifier)->first().aname,
+			type <- entityFrom.attribute->select(a | a.isIdentifier)->first().type,
+			name <- entityFrom.ename + '_id',
+			isNullable <- false,
+			isUnique <- true
+		)
+}
+
+rule M2ORelationship2ForeignKey {
+	from
+		relationship : ER!Relationship (
+			relationship.isManyToOne()
+		)
+	using {
+		entityFrom : ER!Entity = relationship.entity->first();
+        entityTo : ER!Entity = relationship.entity->last();
+	}
+	to
+		fk : Relational!ForeignKey (
+			table <- entityFrom,
+            refersToTable <- entityTo,
+		    refersToColumn <- entityTo.attribute->select(a | a.isIdentifier)->first().aname,
+			type <- entityTo.attribute->select(a | a.isIdentifier)->first().type,
+			name <- entityTo.ename + '_id',
+			isNullable <- false,
+			isUnique <- true
+		)
+}
+
+rule O2ORelationship2ForeignKey {
+	from
+		relationship : ER!Relationship (
+			relationship.isOneToOne()
+		)
+	using {
+		entityFrom : ER!Entity = relationship.entity->first();
+        entityTo : ER!Entity = relationship.entity->last();
+	}
+	to
+		fk : Relational!ForeignKey (
+			table <- entityFrom,
+            refersToTable <- entityTo,
+		    refersToColumn <- entityTo.attribute->select(a | a.isIdentifier)->first().aname,
+			type <- entityTo.attribute->select(a | a.isIdentifier)->first().type,
+			name <- entityTo.ename + '_id',
+			isNullable <- false,
+			isUnique <- true
+		)
+}
+
+rule M2MRelationship2ForeignKey {
+	from
+		relationship : ER!Relationship (
+			relationship.isManyToMany()
+		)
+	using {
+		entityFrom : ER!Entity = relationship.entity->first();
+        entityTo : ER!Entity = relationship.entity->last();
+	}
+	to
+		table : Relational!Table (
+			name <- relationship.rname,
+			schema <- relationship.model
+		),
+		fk1: Relational!ForeignKey (
+			table <- table,
+            refersToTable <- entityFrom,
+		    refersToColumn <- entityFrom.attribute->select(a | a.isIdentifier)->first().aname,
+			type <- entityFrom.attribute->select(a | a.isIdentifier)->first().type,
+			name <- relationship.rname + entityFrom.ename + '_id',
+			isNullable <- false,
+			isUnique <- true
+		),
+		fk2: Relational!ForeignKey (
+			table <- table,
+            refersToTable <- entityTo,
+		    refersToColumn <- entityTo.attribute->select(a | a.isIdentifier)->first().aname,
+			type <- entityTo.attribute->select(a | a.isIdentifier)->first().type,
+			name <- relationship.rname + entityTo.ename + '_id',
+			isNullable <- false,
+			isUnique <- true
+		),
+		pk: Relational!PrimaryKey(
+			table <- table,
+			name <- table.name + '_od',
+			type <- 'Int',
+			isNullable <- false,
+			isUnique <- true
+		)
+			
+}

@@ -1,0 +1,46 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.example.org/relational')]
+
+
+[template public generateElement(aSchema : Schema)]
+[comment @main/]
+[file (aSchema.name.concat('.sql'), false, 'UTF-8')]
+CREATE SCHEMA IF NOT EXISTS [aSchema.name/];
+
+[for (table : Table | aSchema.table)]
+DROP TABLE IF EXISTS [table.name/];
+[/for]
+
+[aSchema.table.generateTable()/]
+[/file]
+[/template]
+
+[template public generateTable(aTable : Table)]
+CREATE TABLE [aTable.name/] (
+	[aTable.column.generateColumn()/]
+	[if not aTable.column->select(c | c.oclIsTypeOf(ForeignKey))->isEmpty()]
+	[aTable.column->select(c | c.oclIsTypeOf(PrimaryKey))->collect(c | c.oclAsType(PrimaryKey)).generatePrimaryKey()/],
+	[for (fk : ForeignKey | aTable.column->select(c | c.oclIsTypeOf(ForeignKey))->collect(c | c.oclAsType(ForeignKey))->dropRight(1))]
+	[fk.generateForeignKey()/],
+	[/for]
+	[aTable.column->select(c | c.oclIsTypeOf(ForeignKey))->collect(c | c.oclAsType(ForeignKey))->last().generateForeignKey()/]
+	[else]
+	[aTable.column->select(c | c.oclIsTypeOf(PrimaryKey))->collect(c | c.oclAsType(PrimaryKey)).generatePrimaryKey()/]
+	[/if]
+);
+
+
+[/template]
+
+[template public generateColumn(aColumn : Column)]
+[aColumn.name/] [aColumn.type.toUpper()/][if aColumn.isNullable = false] NOT NULL[/if][if aColumn.isUnique = true] UNIQUE[/if],
+
+[/template]
+
+[template public generatePrimaryKey(aPrimaryKey : PrimaryKey)]
+PRIMARY KEY ([aPrimaryKey.name/])
+[/template]
+
+[template public generateForeignKey(aForeignKey : ForeignKey)]
+FOREIGN KEY ([aForeignKey.name/]) REFERENCES [aForeignKey.refersToTable.name/] ([if aForeignKey.refersToColumn.oclIsUndefined() or aForeignKey.refersToColumn.size() = 0][aForeignKey.refersToTable.column->select(c | c.oclIsTypeOf(PrimaryKey))->first().name/][else][aForeignKey.refersToColumn/][/if])
+[/template]

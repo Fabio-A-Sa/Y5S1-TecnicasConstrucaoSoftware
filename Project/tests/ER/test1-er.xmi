@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<er:Model xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:er="http://www.example.org/er"
+    name="Model">
+  <entity ename="Gyms"
+      relationship="//@relationship.0 //@relationship.1">
+    <attribute
+        aname="id"
+        type="Integer"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="String"/>
+    <attribute
+        aname="address"
+        type="String"/>
+    <attribute
+        aname="tax_id"
+        type="Integer"/>
+  </entity>
+  <entity ename="entity"
+      relationship="//@relationship.0">
+    <attribute
+        aname="id"
+        type="Integer"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="String"/>
+    <attribute
+        aname="min_weight"
+        type="Float"/>
+    <attribute
+        aname="max_weight"
+        type="Float"/>
+  </entity>
+  <entity ename="entity"
+      relationship="//@relationship.1">
+    <attribute
+        aname="id"
+        type="Integer"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="String"/>
+    <attribute
+        aname="address"
+        type="String"/>
+    <attribute
+        aname="age"
+        type="Integer"/>
+    <attribute
+        aname="tax_id"
+        type="Integer"/>
+  </entity>
+  <relationship
+      rname="has"
+      entity="//@entity.0 //@entity.1"
+      lowerBoundA="1"
+      upperBoundA="1"
+      upperBoundB="-1"/>
+  <relationship
+      rname="is"
+      entity="//@entity.0 //@entity.2"
+      lowerBoundA="1"
+      upperBoundA="-1"
+      lowerBoundB="-1"
+      upperBoundB="-1"/>
+</er:Model>

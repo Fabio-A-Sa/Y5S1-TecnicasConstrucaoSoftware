@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="er" nsURI="http://www.example.org/er" nsPrefix="er">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ModelNameNotEmpty UniqueEntitiesName UniqueRelationshipName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ModelNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The model name can not be empty.',&#xA;&#x9;status : Boolean = &#xA;            not self.name.oclIsUndefined() and self.name.size() > 0&#xA;}.status"/>
+      <details key="UniqueEntitiesName" value="Tuple {&#xA;&#x9;message : String = 'Each entity name in an entity must be unique',&#xA;&#x9;status : Boolean = &#xA;            self.entity->forAll(e1, e2 | e1 &lt;> e2 implies e1.ename &lt;> e2.ename)&#xA;}.status"/>
+      <details key="UniqueRelationshipName" value="Tuple {&#xA;&#x9;message : String = 'Each relationship name in an entity must be unique',&#xA;&#x9;status : Boolean = &#xA;            self.relationship->forAll(r1, r2 | r1 &lt;> r2 implies r1.rname &lt;> r2.rname)&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" upperBound="-1"
+        eType="#//Entity" containment="true" eOpposite="#//Entity/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" upperBound="-1"
+        eType="#//Relationship" containment="true" eOpposite="#//Relationship/model"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidEntityCount"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ValidEntityCount" value="Tuple {&#xA;&#x9;message : String = 'Each attribute must be associated with exactly one entity',&#xA;&#x9;status : Boolean = &#xA;            self.entity->size() = 1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUnique" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isNullable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isIdentifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" lowerBound="1"
+        eType="#//Entity" eOpposite="#//Entity/attribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueAttributeName EntityNameNotEmpty HasIdentifier"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="UniqueAttributeName" value="Tuple {&#xA;&#x9;message : String = 'Each attribute name in an entity must be unique',&#xA;&#x9;status : Boolean = &#xA;            self.attribute->forAll(a1, a2 | a1 &lt;> a2 implies a1.aname &lt;> a2.aname)&#xA;}.status"/>
+      <details key="EntityNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The entity name can not be empty.',&#xA;&#x9;status : Boolean = &#xA;            not self.ename.oclIsUndefined() and self.ename.size() > 0&#xA;}.status"/>
+      <details key="HasIdentifier" value="Tuple {&#xA;&#x9;message : String = 'Each entity must have an identifier',&#xA;&#x9;status : Boolean = &#xA;   &#x9;&#x9;&#x9;self.attribute->select(c | c.isIdentifier)->size() = 1&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        upperBound="-1" eType="#//Attribute" containment="true" eOpposite="#//Attribute/entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
+        eOpposite="#//Model/entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" upperBound="-1"
+        eType="#//Relationship" eOpposite="#//Relationship/entity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relationship">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidCardinalityBounds PositiveLowerBounds ValidEntityCount RelationshipNameNotEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ValidCardinalityBounds" value="Tuple {&#xA;&#x9;message : String = 'Lower bound should not exceed the upper bound in a relationship, with -1 representing many',&#xA;&#x9;status : Boolean = &#xA;            (lowerBoundA &lt;= upperBoundA or upperBoundA = -1) and (lowerBoundB &lt;= upperBoundB or upperBoundB = -1)&#xA;}.status"/>
+      <details key="PositiveLowerBounds" value="Tuple {&#xA;&#x9;message : String = 'Lower bound should be represented as a non-negative number',&#xA;&#x9;status : Boolean = &#xA;            (lowerBoundA >= 0)&#xA;}.status"/>
+      <details key="ValidEntityCount" value="Tuple {&#xA;&#x9;message : String = 'Each relationship must associate exactly two entities',&#xA;&#x9;status : Boolean = &#xA;            self.entity->size() = 2&#xA;}.status"/>
+      <details key="RelationshipNameNotEmpty" value="Tuple {&#xA;&#x9;message : String = 'The relationship name can not be empty.',&#xA;&#x9;status : Boolean = &#xA;            not self.rname.oclIsUndefined() and self.rname.size() > 0&#xA;}.status"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" lowerBound="2"
+        upperBound="2" eType="#//Entity" eOpposite="#//Entity/relationship">
+      <eAnnotations source="http://www.eclipse.org/OCL/Collection">
+        <details key="nullFree" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
+        eOpposite="#//Model/relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBoundA" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBoundA" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBoundB" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBoundB" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

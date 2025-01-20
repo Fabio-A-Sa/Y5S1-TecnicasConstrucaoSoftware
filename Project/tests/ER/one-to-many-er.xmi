@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<er:Model xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:er="http://www.example.org/er"
+    name="Model">
+  <entity ename="Gyms"
+      relationship="//@relationship.0">
+    <attribute
+        aname="gym_id"
+        type="Int"
+        isUnique="true"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="Varchar"/>
+    <attribute
+        aname="address"
+        type="Varchar"/>
+    <attribute
+        aname="tax_id"
+        type="Int"/>
+  </entity>
+  <entity ename="Equipment"
+      relationship="//@relationship.0">
+    <attribute
+        aname="equipment_id"
+        type="Int"
+        isUnique="true"
+        isIdentifier="true"/>
+    <attribute
+        aname="name"
+        type="Varchar"/>
+    <attribute
+        aname="min_weight"
+        type="Float"/>
+    <attribute
+        aname="max_weight"
+        type="Float"/>
+  </entity>
+  <relationship
+      rname="has"
+      entity="//@entity.0 //@entity.1"
+      lowerBoundA="1"
+      upperBoundA="1"
+      lowerBoundB="1"
+      upperBoundB="-1"/>
+</er:Model>

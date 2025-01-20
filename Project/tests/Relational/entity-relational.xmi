@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<relational:Schema xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:relational="http://www.example.org/relational" name="Model">
+  <table name="Gyms">
+    <column xsi:type="relational:PrimaryKey" name="id" type="Int" isNullable="false" isUnique="true"/>
+    <column name="name" type="Varchar" isNullable="false" isUnique="true"/>
+    <column name="address" type="Varchar"/>
+    <column name="tax_id" type="Int" isNullable="false"/>
+    <column name="isOpen" type="TinyInt" isNullable="false"/>
+  </table>
+</relational:Schema>
